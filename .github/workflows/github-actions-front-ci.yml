@@ -15,12 +15,12 @@ jobs:
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
       FORCE_COLOR: 1
     steps:
-    - name: Add my hosts mapping to /etc/hosts
+    - name: Copy certificate
       run: |
-          sudo echo "209.126.85.133 harbor.axinode.com argocd.axinode.com redpanda.axinode.com devops.axinode.com" | sudo tee -a /etc/hosts
+          sudo mkdir /etc/docker/certs.d/harbor.axinode.com:7443 && cp ./cert/* /etc/docker/certs.d/harbor.axinode.com:7443
     - name: Add insecure registry for demon.json
       run: |
-          sudo echo "{ "insecure-registries":["harbor.axinode.com:8380"] }" | sudo tee /etc/docker/daemon.json
+          export DOCKER_OPTS="--insecure-registry harbor.axinode.com:8380"
     - name: Setup Earthly
       uses: earthly/actions-setup@v1.0.7
       with:
