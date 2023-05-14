@@ -15,12 +15,9 @@ jobs:
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
       FORCE_COLOR: 1
     steps:
-    - name: Copy certificate
+    - name: Add my hosts mapping to /etc/hosts
       run: |
-          sudo cp ./cert/* /usr/local/share/ca-certificates && sudo update-ca-certificates && sudo systemctl restart snap.docker.dockerd.service
-    - name: Add insecure registry for demon.json
-      run: |
-          export DOCKER_OPTS="--insecure-registry harbor.axinode.com:8380"
+          sudo echo "209.126.85.133 harbor.axinode.com argocd.axinode.com redpanda.axinode.com devops.axinode.com" | sudo tee -a /etc/hosts
     - name: Setup Earthly
       uses: earthly/actions-setup@v1.0.7
       with:
@@ -29,6 +26,9 @@ jobs:
         use-cache: true
     - name: Checkout repo
       uses: actions/checkout@v2
+    - name: Copy certificate
+      run: |
+          sudo ls && sudo cp cert/* /usr/local/share/ca-certificates && sudo update-ca-certificates && sudo systemctl restart snap.docker.dockerd.service
     - name: Docker login
       run: docker login harbor.axinode.com:8380 --username "$HARBOR_USERNAME" --password "$HARBOR_PASSWORD"
     - name: Run build
