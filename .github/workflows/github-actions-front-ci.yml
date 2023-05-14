@@ -27,6 +27,6 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
     - name: Docker login
-      run: docker login harbor.axinode.com:7443 --username "$HARBOR_USERNAME" --password "$HARBOR_PASSWORD"
+      run: docker login harbor.axinode.com:8380 --username "$HARBOR_USERNAME" --password "$HARBOR_PASSWORD"
     - name: Run build
       run: earthly --push +build && earthly --push +docker
