@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Copy certificate
       run: |
-          sudo mkdir /etc/docker/certs.d/harbor.axinode.com:7443 && cp ./cert/* /etc/docker/certs.d/harbor.axinode.com:7443
+          sudo cp ./cert/* /usr/local/share/ca-certificates && sudo update-ca-certificates && sudo systemctl restart snap.docker.dockerd.service
     - name: Add insecure registry for demon.json
       run: |
           export DOCKER_OPTS="--insecure-registry harbor.axinode.com:8380"
