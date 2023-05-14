@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+      HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
+      FORCE_COLOR: 1
+    steps:
+    - name: Setup Earthly
+      uses: earthly/actions-setup@v1.0.7
+      with:
+        github-token: ${{ secrets.GIT_TOKEN }}
+        version: v0.7.4
+        use-cache: true
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Docker login
+      run: docker login harbor.axinode.com --username "$HARBOR_USERNAME" --password "$HARBOR_PASSWORD"
+    - name: Run build
+      run: earthly --push +build && earthly --push +docker
