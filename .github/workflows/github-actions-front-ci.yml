@@ -15,6 +15,9 @@ jobs:
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
       FORCE_COLOR: 1
     steps:
+    - name: Add my hosts mapping to /etc/hosts
+      run: |
+          sudo echo "209.126.85.133 harbor.axinode.com argocd.axinode.com redpanda.axinode.com devops.axinode.com" | sudo tee -a /etc/hosts
     - name: Setup Earthly
       uses: earthly/actions-setup@v1.0.7
       with:
