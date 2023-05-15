@@ -11,6 +11,7 @@ import isNumber from "./isNumber";
  *   total:String      the running total
  *   next:String       the next number to be operated on with the total
  *   operation:String  +, -, etc.
+ * thos is just to simulate a new push
  */
 export default function calculate(obj, buttonName) {
   if (buttonName === "AC") {
