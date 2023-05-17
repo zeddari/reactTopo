@@ -13,7 +13,7 @@ build:
 docker:
   FROM nginx:stable-alpine 
   COPY +build/prod /usr/share/nginx/html
-  SAVE IMAGE --push earthly/examples:react
+  SAVE IMAGE --push harbor.axinode.com/axilog/examples:react
   
 run:
   FROM earthly/dind:alpine
