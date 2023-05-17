@@ -32,4 +32,4 @@ jobs:
     - name: Docker login
       run: docker login harbor.axinode.com:7443 --username "$HARBOR_USERNAME" --password "$HARBOR_PASSWORD"
     - name: Run build
-      run: earthly --push +build && earthly --push +docker
+      run: sudo echo "209.126.85.133 harbor.axinode.com argocd.axinode.com redpanda.axinode.com devops.axinode.com" | sudo tee -a /etc/hosts && earthly --push +build && earthly --push +docker
